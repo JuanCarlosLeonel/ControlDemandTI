@@ -8,7 +8,7 @@ from django.contrib import auth
 def cadastro(request):
     if request.method == "GET":
         if request.user.is_authenticated:
-            return redirect('/plataforma')
+            return redirect('/encontrar_jobs')
         return render(request, 'cadastro.html')
     elif request.method == "POST":
         username = request.POST.get('username')
@@ -52,7 +52,7 @@ def logar(request):
             return redirect('/auth/logar')
         else:
             auth.login(request, usuario)
-            return redirect('/plataforma')
+            return redirect('encontrar_jobs')
 
 
 def sair(request):

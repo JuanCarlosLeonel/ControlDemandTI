@@ -12,19 +12,14 @@
         <div class="row">
             <div class="col-sm">
             <form action="{% url 'encontrar_jobs' %}" method="GET"> {% csrf_token %}
-                <input type="text" class="form-control" placeholder="Preço mínimo" name="preco_minimo">
-                <br>
-                <input type="text" class="form-control" placeholder="Preço máximo" name="preco_maximo">
-            </div>
-            <div class="col-sm">
                 <input type="date" class="form-control" name="prazo_minimo">
                 <br>
                 <input type="date" class="form-control" name="prazo_maximo">
             </div>
             <div class="col-sm">
                 <select class="form-control" name="categoria">
-                    <option value="D">Design</option>
-                    <option value="EV">Edição de vídeo</option>
+                    <option value="M">Modificação</option>
+                    <option value="ND">Nova Demanda</option>
                 </select>
                 <br>
                 <input type="submit" class="btn btn-success btn-lg" value="FILTRAR">
@@ -33,7 +28,7 @@
         </div>
         <br>
         <br>
-        <h2 class="titulo">JOB’S EM ABERTO:</h2>
+        <h2 class="titulo">DEMANDAS EM ABERTO:</h2>
         <div class="row justify-content-around">
             {% for job in jobs %}
                 <div class="col-6 row-card">
@@ -48,8 +43,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-4">
-                                    <p class="titulo-body">Preço R$:</p>
-                                    <p>{{ job.preco }}</p>
+                                    <p class="titulo-body">Solicitante:</p>
+                                    <p>{{ job.solicitante }}</p>
                                 </div>
 
                                 <div class="col-4">
@@ -59,10 +54,10 @@
 
                                 <div class="col-4">
                                     <p class="titulo-body">Categoria:</p>
-                                    {% if job.categoria == 'D' %}
-                                        <p>Design</p>
+                                    {% if job.categoria == 'M' %}
+                                        <p>Modificação</p>
                                     {% else %}
-                                        <p>Edição de Vídeo</p>
+                                        <p>Nova Demanda</p>
                                     {% endif %}
                                 </div>
                             </div>
@@ -90,8 +85,8 @@
                                     <p>{{job.descricao}}</p>
                                     <div class="row">
                                         <div class="col-4">
-                                            <h6 class="titulo-body">Preço:</h6>
-                                            <p>{{job.preco}}</p>
+                                            <h6 class="titulo-body">Solicitante:</h6>
+                                            <p>{{job.solicitante}}</p>
                                         </div>
                                         <div class="col-4">
                                             <h6 class="titulo-body">Prazo:</h6>
@@ -99,7 +94,11 @@
                                         </div>
                                         <div class="col-4">
                                             <h6 class="titulo-body">Categoria:</h6>
-                                            <p>{{job.prazo_entrega}}</p>
+                                            {% if job.categoria == 'M' %}
+                                                <p>Modificação</p>
+                                            {% else %}
+                                                <p>Nova Demanda</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <h4 style="display:inline;" class="job-modal-titulo">Referencias:</h4>

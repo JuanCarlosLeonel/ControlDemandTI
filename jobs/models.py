@@ -10,8 +10,8 @@ class Referencias(models.Model):
 
 class Jobs(models.Model):
     CATEGORIA = (
-                    ('D', 'Design'),
-                    ('EV', 'Edição de Vídeo')
+                    ('M', 'Mofificação'),
+                    ('ND', 'Nova Demanda')
         )
     STATUS = (
                     ('C', 'Em criação'),
@@ -20,14 +20,14 @@ class Jobs(models.Model):
         )
     titulo = models.CharField(max_length=200)
     descricao = models.TextField()
-    categoria = models.CharField(max_length=2, choices=CATEGORIA, default="D")
+    categoria = models.CharField(max_length=2, choices=CATEGORIA, default="M")
     prazo_entrega = models.DateTimeField()
-    preco = models.FloatField()
+    solicitante = models.CharField(max_length=20,null=True)
     referencias = models.ManyToManyField(Referencias)
     profissional = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
     reservado = models.BooleanField(default=False)
     status = models.CharField(max_length=2, choices=STATUS ,default='C')
-    arquivo_final = models.FileField(null=True)
+    arquivo_final = models.FileField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.titulo

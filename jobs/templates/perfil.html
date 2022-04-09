@@ -55,10 +55,10 @@
                     <tr>
                         <th scope="row"><img width="100px" src="{{job.referencias.all.0}}"></th>
                         <td>{{job.titulo}}</td>
-                        <td>{% if job.categoria == 'D'%}
-                                Design
+                        <td>{% if job.categoria == 'M'%}
+                                Modificação
                             {% else %}
-                                Edição de vídeo
+                                Nova Demanda
                             {% endif%}
                         </td>
                         <td>{{job.descricao}}</td>

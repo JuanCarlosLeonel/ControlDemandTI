@@ -9,31 +9,23 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/auth/logar')
 def encontrar_jobs(request):
     if request.method == "GET":
-        preco_minimo = request.GET.get('preco_minimo')
-        preco_maximo = request.GET.get('preco_maximo')
         prazo_minimo = request.GET.get('prazo_minimo')
         prazo_maximo = request.GET.get('prazo_maximo')
         categoria = request.GET.get('categoria')
 
-        if preco_minimo or preco_maximo or prazo_minimo or prazo_maximo or categoria:
-            if not preco_minimo:
-                preco_minimo = 0
-            if not preco_maximo:
-                preco_maximo = 999999
+        if  prazo_minimo or prazo_maximo or categoria:
             if not prazo_minimo:
                 prazo_minimo = datetime(year=1900, month=1, day=1)
             if not prazo_maximo:
                 prazo_maximo = datetime(year=3000, month=1, day=1)
-            if categoria == 'D':
-                categoria = ['D',]
-            elif categoria == 'EV':
-                categoria = ['EV',]
-            jobs = Jobs.objects.filter(preco__gte=preco_minimo)\
-                .filter(preco__lte=preco_maximo)\
-                .filter(prazo_entrega__gte=prazo_minimo)\
-                .filter(prazo_entrega__lte=prazo_maximo)\
-                .filter(categoria__in=categoria)\
-                .filter(reservado=False)
+            if categoria == 'M':
+                categoria = ['M',]
+            elif categoria == 'ND':
+                categoria = ['ND',]
+            jobs = Jobs.objects.filter(prazo_entrega__gte=prazo_minimo)\
+                                .filter(prazo_entrega__lte=prazo_maximo)\
+                                .filter(categoria__in=categoria)\
+                                .filter(reservado=False)
         else:
             jobs = Jobs.objects.filter(reservado = False)
         return render(request, 'encontrar_jobs.html', {'jobs': jobs})
@@ -45,7 +37,7 @@ def aceitar_job(request, id):
     job.profissional = request.user
     job.reservado = True
     job.save()
-    return redirect('/jobs/encontrar_jobs')
+    return redirect('encontrar_jobs')
 
 
 @login_required(login_url='/auth/logar')
@@ -63,13 +55,13 @@ def perfil(request):
 
         if usuario.exists():
             messages.add_message(request, constants.ERROR, 'Já existe um usuário com esse Username')
-            return redirect('/jobs/perfil')
+            return redirect('perfil')
 
         usuario = User.objects.filter(email=email).exclude(id=request.user.id)
 
         if usuario.exists():
             messages.add_message(request, constants.ERROR, 'Já existe um usuário com esse E-mail')
-            return redirect('/jobs/perfil')
+            return redirect('perfil')
 
         request.user.username = username
         request.user.email = email
@@ -78,7 +70,7 @@ def perfil(request):
         request.user.save()
 
         messages.add_message(request, constants.SUCCESS, 'Dados alterado com sucesso')
-        return redirect('/jobs/perfil')
+        return redirect('perfil')
 
 @login_required(login_url='/auth/logar')
 def enviar_projeto(request):
@@ -90,7 +82,7 @@ def enviar_projeto(request):
     job.arquivo_final = arquivo
     job.status = 'AA'
     job.save()
-    return redirect('/jobs/perfil')
+    return redirect('perfil')
 
 
 
