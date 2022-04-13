@@ -5,6 +5,8 @@ from datetime import datetime
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
+from .form import JobForm
 
 @login_required(login_url='/auth/logar')
 def encontrar_jobs(request):
@@ -83,6 +85,21 @@ def enviar_projeto(request):
     job.status = 'AA'
     job.save()
     return redirect('perfil')
+
+
+class CreateJob(CreateView):
+    form_class = JobForm
+    template_name = 'jobs_form.html'
+    model = Jobs
+
+    def get_success_url(self):
+        return 'perfil' 
+
+    def get_initial(self, *args, **kwargs):
+        import datetime
+        initial = super(CreateJob, self).get_initial(**kwargs)
+        initial['prazo_entrega'] = datetime.date.today()
+        return initial
 
 
 

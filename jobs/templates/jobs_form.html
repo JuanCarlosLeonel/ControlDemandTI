@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'autenticacao/css/cadastro.css' %}">
+{% endblock %}
+
+{% block 'body' %}
+<div class="box">
+  <form method="post" autocomplete="off">{% csrf_token %}
+    <a href="javascript:void(0)" onClick="history.go(-1); return false;" type="button" class="close" aria-hidden="true">X</a>
+    <h1 class="titulo font-degrade borda-bottom-degrade">Nova Demanda</h2>
+      {{form.as_p}}
+      <input  type="submit" value="SALVAR" class="btn btn-success btn-lg">
+  </form>
+      
+</div>
+{% endblock %}
+
+{{ form.media.js }}
+<script>
+    $(document).ready(function(){
+        $('#teste').on('submit',function(){
+            $('#teste1').attr('disabled','disabled')
+        })
+        
+    })
+</script>
+<script>
+    let option = document.getElementById('setor{{setor.id}}');        
+    option.setAttribute('class', 'active');					           
+    </script>
+    <script>
+    $(document).ready(function(){            
+        $(".enabled").attr("class", "disabled");
+        $(".disabled a").removeAttr("href");    
+        $(".date").css('pointer-events', 'none');       
+    });
+</script>
+     
+<script>
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            minViewMode: "days",
+            todayBtn: true,
+            todayHighlight: true,
+            
+        });            
+        $('.datepicker2').datepicker({
+            format: 'hh:mm',
+            minViewMode: "hours",
+            todayBtn: true,
+            todayHighlight: true,
+            
+        });            
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
